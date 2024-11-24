@@ -158,11 +158,11 @@ const profiles = [];
 fetch('/api/products')  // Use the correct URL where your API is exposed
   .then(response => response.json())  // Parse the JSON response
   .then(data => {
-    // Assign the fetched data to profiles
-    profiles.push(...data); // Using push to add multiple products to the profiles array
+    const filteredData = data.filter(product => product.show_feat === 1);
     
-    // Now you can render the products in HTML
-    renderProfiles(profiles);
+    // Push the filtered data to profiles
+    profiles.push(...filteredData);
+    renderProfiles(filteredData);
   })
   .catch(error => {
     console.error('Error fetching products:', error);
@@ -200,10 +200,10 @@ function renderProfiles() {
                   alt="Product 2"
                   class="h-[152px] md:h-[280px] w-[152px] xs:w-[185px] md:w-full object-contain"
                 />
-                <div class="absolute top-[132px] md:top-[260px] sm:bottom-[92px] left-[12px] xs:left-[28px] md:left-[60px]">
+                <div class="absolute top-[138px] md:top-[260px] sm:bottom-[92px] left-[12px] xs:left-[28px] md:left-[60px]">
                     <button
                     onclick="addToCartAndRedirect(${profile.id})"
-                  class="group relative h-10 w-[130px] rounded-full bg-[#1B266B] px-5 text-white"
+                  class="group relative h-8 md:h-10 w-[130px] rounded-full bg-[#1B266B] px-5 text-white text-sm sm:text-md"
                 >
                   <span class="relative inline-flex overflow-hidden">
                     <div
@@ -222,28 +222,28 @@ function renderProfiles() {
               </div>
               <!-- Price Tag -->
               <div
-                class="absolute top-[3px] right-[3px] bg-green-500 text-white text-lg font-bold px-6 py-1 rounded-lg shadow-lg clip-leftpoint"
+                class="absolute top-[3px] right-[3px] bg-green-500 text-white text-lg font-bold px-4 md:px-6 py-1 rounded-lg shadow-lg clip-leftpoint"
               >
-                <span
-                  ><i class="fa-solid fa-bangladeshi-taka-sign pr-1"></i
+                <span class="text-sm md:text-md"
+                  ><i class="fa-solid fa-bangladeshi-taka-sign pr-1 "></i
                   >${profile.price}</span>
 
               </div>
               <div class="p-4">
-              <a href="../product-details.html"><h3
-                  class="text-[12px]  sm:text:base md:text-md lg:text-[16px] font-bold text-[#2D2A32] hover:text-[#33C659] transition duration-300"
+              <a href="../product/${profile.id}"><h3
+                  class="text-[12px]   sm:text:base md:text-md lg:text-[16px] font-bold text-[#2D2A32] hover:text-[#33C659] transition duration-300"
                 >
                  ${profile.title} 
                 </h3></a>
                 
                 <div class="mt-2 flex items-center flex-wrap gap-2">
                   <div
-                    class="mx-auto bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full shadow-lg shadow-purple-200 flex items-center justify-center text-lg sm:text-xl px-4 py-2 cursor-pointer hover:outline-none active:outline-none whitespace-nowrap select-none touch-manipulation min-w-[100px] sm:min-w-[125px]  hover:-translate-y-1 transition duration-100"
+                    class="mx-auto bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full shadow-lg shadow-purple-200 flex items-center justify-center text-lg sm:text-xl px-4 py-1 md:py-2 cursor-pointer hover:outline-none active:outline-none whitespace-nowrap select-none touch-manipulation min-w-[100px] sm:min-w-[125px]  hover:-translate-y-1 transition duration-100"
                   >
-                    <i class="fa-solid fa-bag-shopping text-white mr-1"></i>
+                    <i class="fa-solid fa-bag-shopping text-white mr-1 text-sm md:text-base"></i>
                     <span
                     id="addToCardId" onclick="addToCart(${profile.id})"
-                    class="text-white text-base">ব্যাগে রাখুন</span>
+                    class="text-white text-sm md:text-base">ব্যাগে রাখুন</span>
                   </div>
                 </div>
               </div>
@@ -335,7 +335,7 @@ function deleteFromCart(productId) {
   cart = cart.filter(p => p.id !== productId); // Remove the product from cart
   renderCart(); // Re-render the cart after deleting the item
   localStorage.setItem('cart',JSON.stringify(cart))
-  
+  updateCartCount();
 }
 
 // Update quantity in cart
@@ -372,6 +372,7 @@ function showModal(id) {
   
     // Dynamically set the onclick event for the Buy Now button
     const buyNowButton = document.getElementById('buyNowButton');
+    document.getElementById('detailsButton').href = "/product/" + profile.id;
     buyNowButton.onclick = () => addToCartAndRedirect(id);
 
     document.getElementById('productModal').classList.remove('hidden');

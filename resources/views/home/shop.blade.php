@@ -1,6 +1,11 @@
 @extends('home.layouts.master')
 @section('content')
+@php
+   use App\Models\Category;
+   $categories = Category::all(); 
+@endphp
 <script>
+  
 	// Render cart
 	 cartArray = JSON.parse(localStorage.getItem('cart')) || [];  // Load cart from localStorage on page load
 
@@ -108,33 +113,35 @@
   </section>
     <div class="bg-[#F9F1BF] w-full">
 
-        <div class="max-w-full mx-auto bg-white px-1 sm:px-2 md:px-4 py-4 sm:py-6 rounded-lg shadow-md">
+        <div class="max-w-full mx-auto bg-white px-1 sm:px-2 md:px-4 py-4 sm:py-6 rounded-lg shadow-md mb-6">
             <h1 class="text-base sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 lg:mb-4">প্রোডাক্ট খুঁজুন</h1>
 
-            <!-- Search Input -->
+           
+            <div class="filt grid grid-cols-3 gap-2">
+               <!-- Search Input -->
             <input id="searchInput" type="text" placeholder="প্রোডাক্টের নাম..."
-                class="w-full text-base mb-4 px-1 sm:px-2 py-1 border border-gray-300 rounded-lg focus:outline-none" />
+            class="w-full text-base mb-4 px-1 sm:px-2 py-1 border border-gray-300 rounded-lg focus:outline-none" />
 
-            <!-- Category Dropdown -->
-            <select id="categoryDropdown"
-                class="w-full text-base mb-4 px-1 sm:px-2 py-1 border border-gray-300 rounded-lg focus:outline-none">
-                <option value="">ক্যাটাগরি নির্বাচন করুন</option>
-                <option value="Spray">স্প্রে</option>
-                <option value="Cleaner">ক্লিনার</option>
-                <option value="Dish Wash">ডিশ ওয়াশ</option>
-                <option value="Vinegar">ভিনেগার</option>
-                <option value="Washing Powder">ওয়াশিং পাউডার</option>
-                <option value="Hand Wash">হ্যান্ড ওয়াশ</option>
-            </select>
+        <!-- Category Dropdown -->
+        <select id="categoryDropdown"
+            class="w-full text-base mb-4 px-1 sm:px-2 py-1 border border-gray-300 rounded-lg focus:outline-none">
+            <option value="">ক্যাটাগরি নির্বাচন করুন</option>
+            @foreach ($categories as $item)
+            <option value="{{$item->name}}">{{$item->name}}</option>
+                
+            @endforeach
+            
+        </select>
 
-            <!-- All Products Button -->
-            <button id="allProductsButton"
-                class="bg-blue-500 text-sm sm:text-base text-white py-1 px-4 rounded-full mb-4 hover:bg-blue-600">
-                সব প্রোডাক্ট
-            </button>
+        <!-- All Products Button -->
+        <button id="allProductsButton"
+            class="bg-blue-500 text-sm sm:text-base text-white py-1 px-4 rounded-full mb-4 hover:bg-blue-600">
+            সব প্রোডাক্ট
+        </button>
+            </div>
 
             <!-- Products Container -->
-            <div id="productContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 place-items-center">
+            <div id="productContainer" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 place-items-center">
             </div>
         </div>
 
@@ -156,7 +163,7 @@
                         class="inline-flex flex-1 w-full mt-10 items-center justify-center h-12 px-4 text-lg font-medium text-white font-nakkh transition-transform transform bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg shadow-[rgba(45,35,66,0.4)_0px_2px_4px,rgba(45,35,66,0.3)_0px_7px_13px_-3px,rgba(58,65,111,0.5)_0px_-3px_0px_inset]  hover:shadow-[rgba(45,35,66,0.4)_0px_0px_0px,rgba(45,35,66,0.3)_0px_1px_1px_-3px,#3c4fe0_0px_-2px_0px_inset] hover:-translate-y-0.5 active:shadow-[#3c4fe0_0px_3px_7px_inset] active:translate-y-0.5"
                         role="button">
                         এখনই কিনুন </button>
-                    <a href="/product-details.html" class="flex-1">
+                    <a class="flex-1" id="dataLink">
                         <button
                             class="inline-flex w-full mt-10 items-center justify-center h-12 px-4 text-lg font-medium text-white font-nakkh transition-transform transform bg-gradient-to-br from-blue-500 to-green-500 rounded-lg shadow-[rgba(45,35,66,0.4)_0px_2px_4px,rgba(45,35,66,0.3)_0px_7px_13px_-3px,rgba(58,65,111,0.5)_0px_-3px_0px_inset]  hover:shadow-[rgba(45,35,66,0.4)_0px_0px_0px,rgba(45,35,66,0.3)_0px_1px_1px_-3px,#3c4fe0_0px_-2px_0px_inset] hover:-translate-y-0.5 active:shadow-[#3c4fe0_0px_3px_7px_inset] active:translate-y-0.5"
                             role="button">
@@ -166,90 +173,26 @@
                 </div>
             </div>
         </div>
+        
 
 
         <script>
-            // Product Data
-            // const products = [{
-            //         id: 1,
-            //         title: "বায়োনিল ওয়েল স্প্রে (৪00 মিলি)",
-            //         imageUrl: "images/oilspray2.png",
-            //         price: 240,
-            //         description: "ছারপোকা হচ্ছে সাইমেক্স গণের অন্তর্ভুক্ত এক জাতের পোকা যারা",
-            //         category: "Spray"
-            //     },
-            //     {
-            //         id: 2,
-            //         title: "বায়োনিল ওয়েল স্প্রে (৫লিটার)",
-            //         imageUrl: "images/oil_sprayb.png",
-            //         price: 2200,
-            //         description: "ছারপোকা হচ্ছে সাইমেক্স গণের অন্তর্ভুক্ত এক জাতের পোকা যারা",
-            //         category: "Spray"
-            //     },
-            //     {
-            //         id: 3,
-            //         title: "বায়োনিল টয়লেট ক্লিনার",
-            //         imageUrl: "images/toilet-cl.png",
-            //         price: 0,
-            //         description: "ছারপোকা হচ্ছে সাইমেক্স গণের অন্তর্ভুক্ত এক জাতের পোকা যারা",
-            //         category: "Cleaner"
-            //     },
-            //     {
-            //         id: 4,
-            //         title: "র‍্যাপিড অ্যাকশন এক্সপ্রেস সিস্টেম",
-            //         imageUrl: "images/rapidaction.png",
-            //         price: 70,
-            //         description: "মশা মারার জন্য কার্যকরী",
-            //         category: "Spray"
-            //     },
-            //     {
-            //         id: 5,
-            //         title: "বায়োনিল লিকুইড ডিশ ওয়াশ",
-            //         imageUrl: "images/dishwash.png", 
-            //         price: 75,
-            //         description: "ছারপোকা হচ্ছে সাইমেক্স গণের অন্তর্ভুক্ত এক জাতের পোকা যারা",
-            //         category: "Dish Wash"
-            //     },
-            //     {
-            //         id: 6,
-            //         title: "বায়োনিল হোয়াইট ভিনেগার",
-            //         imageUrl: "images/whiteVinegar.png",
-            //         price: 90,
-            //         description: "ছারপোকা হচ্ছে সাইমেক্স গণের অন্তর্ভুক্ত এক জাতের পোকা যারা",
-            //         category: "Vinegar"
-            //     },
-            //     {
-            //         id: 7,
-            //         title: "বায়োনিল ওয়াশিং পাউডার",
-            //         imageUrl: "images/washigPowder.png",
-            //         price: 150,
-            //         description: "ছারপোকা হচ্ছে সাইমেক্স গণের অন্তর্ভুক্ত এক জাতের পোকা যারা",
-            //         category: "Washing Powder"
-            //     },
-            //     {
-            //         id: 8,
-            //         title: "বায়োনিল হ্যান্ডওয়াশ লিকুইড",
-            //         imageUrl: "images/handwash.png",
-            //         price: 170,
-            //         description: "ছারপোকা হচ্ছে সাইমেক্স গণের অন্তর্ভুক্ত এক জাতের পোকা যারা",
-            //         category: "Hand Wash"
-            //     }
-            // ];
-            
-            const products=[];
-            fetch('/api/products')  // Use the correct URL where your API is exposed
-            .then(response => response.json())  // Parse the JSON response
-            .then(data => {
-              // Assign the fetched data to profiles
-              products.push(...data); // Using push to add multiple products to the profiles array
+          
+          const products=[];
+          fetch('/api/products')  // Use the correct URL where your API is exposed
+          .then(response => response.json())  // Parse the JSON response
+          .then(data => {
+              // Assign the fetched data to products
+              products.push(...data); // Using push to add multiple products to the products array
               
+              // Now you can render the products in HTML
+              renderProducts(products);
             })
             .catch(error => {
               console.error('Error fetching products:', error);
             });
-            console.log(products);
-             cart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from localStorage on page load
-
+            cart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from localStorage on page load
+            
             // DOM Elements
             const searchInput = document.getElementById('searchInput');
             const categoryDropdown = document.getElementById('categoryDropdown');
@@ -260,14 +203,14 @@
 
             // Function to Render Products
             function renderProducts(products) {
-                const productContainer = document.querySelector(
+              const productContainer = document.querySelector(
                 '#productContainer'); // Ensure you have a container with this ID in your HTML
                 productContainer.innerHTML = ''; // Clear existing content
-
+                
                 products.forEach(product => {
-                    const productCard = document.createElement('div');
+                  const productCard = document.createElement('div');
                     productCard.className =
-                        'bg-white rounded-xl overflow-hidden shadow-w cursor-pointer relative mx-auto product-card w-[300px] max-w-[285px] sm:max-w-[300px]';
+                        'bg-white rounded-xl overflow-hidden shadow-w cursor-pointer relative  mx-auto product-card w-[152px] xs:w-[185px] md:w-[250px]';
                     productCard.setAttribute('data-target', '#productModal2');
                     productCard.setAttribute('data-title', product.title);
                     productCard.setAttribute('data-price', product.price);
@@ -277,53 +220,53 @@
                     productCard.innerHTML = `
       <div class="relative-full border-b-8 border-b-[#222E78]">
         <img
-          onclick="showModal(${product.id})"
+          onclick="showModalShop(${product.id})"
           src="${product.imageUrl}"
           alt="${product.title}"
-          class="h-[300px] w-full object-contain max-w-[285px] sm:max-w-[300px]"
+          class="h-[152px] md:h-[280px] w-[152px] xs:w-[185px] md:w-full object-contain"
         />
-        <div class="absolute top-[276px] sm:bottom-[96px] left-[64px]">
-          <button
-            onclick="addToCartAndRedirect(${product.id})"
-            class="group relative h-12 w-[170px] rounded-full bg-gradient-to-r dark:from-[#070e41] dark:to-[#263381] from-[#f7f8ff] to-[#ffffff] px-5 dark:text-white text-neutral-950"
-          >
-            <span class="relative inline-flex overflow-hidden">
-              <div
-                class="translate-y-0 skew-y-0 transition duration-500 group-hover:-translate-y-[120%] group-hover:skew-y-12"
-              >
-                অর্ডার করুন
-              </div>
-              <div
-                class="absolute translate-y-[114%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0"
-              >
-                অর্ডার করুন
-              </div>
-            </span>
-          </button>
-        </div>
+          <div class="absolute top-[138px] md:top-[260px] sm:bottom-[92px] left-[12px] xs:left-[28px] md:left-[60px]">
+                    <button
+                    onclick="addToCartAndRedirect(${product.id})"
+                  class="group relative h-8 md:h-10 w-[130px] rounded-full bg-[#1B266B] px-5 text-white text-sm sm:text-md"
+                >
+                  <span class="relative inline-flex overflow-hidden">
+                    <div
+                      class="translate-y-0 skew-y-0 transition duration-500 group-hover:-translate-y-[120%] group-hover:skew-y-12"
+                    >
+                      অর্ডার করুন
+                    </div>
+                    <div
+                      class="absolute translate-y-[114%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0"
+                    >
+                     অর্ডার করুন
+                    </div>
+                  </span>
+                </button>
+                </div>
       </div>
       <!-- Price Tag -->
       <div
-        class="absolute top-[3px] right-[3px] bg-green-500 text-white text-lg font-bold px-6 py-1 rounded-lg shadow-lg clip-leftpoint"
+        class="absolute top-[3px] right-[3px] bg-green-500 text-white text-sm sm:text-md md:text-lg font-bold px-4 md:px-6 py-1 rounded-lg shadow-lg clip-leftpoint"
       >
         <span><i class="fa-solid fa-bangladeshi-taka-sign pr-1"></i>${product.price}</span>
       </div>
       <div class="p-4">
-        <a href="../product-details.html">
-          <h3 class="text-md sm:text:base md:text-lg font-bold text-[#2D2A32] hover:text-[#33C659] transition duration-300">
+        <a href="/product/${product.id}">
+          <h3 class="text-[12px] sm:text-base md:text-md lg:text-[16px] font-bold text-[#2D2A32] hover:text-[#33C659] transition duration-300">
             ${product.title}
           </h3>
         </a>
+
         <div class="mt-2 flex items-center flex-wrap gap-2">
           <div
-            class="mx-auto bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full shadow-lg shadow-purple-200 flex items-center justify-center text-lg sm:text-xl px-4 py-2 cursor-pointer hover:outline-none active:outline-none whitespace-nowrap select-none touch-manipulation min-w-[100px] sm:min-w-[150px] max-w-full hover:-translate-y-1 transition duration-100"
-          >
-            <i class="fa-solid fa-bag-shopping text-white mr-1"></i>
-            <span
-              id="addToCardId"
-              onclick="addToCart(${product.id})"
-              class="text-white font-bold">ব্যাগে রাখুন</span>
-          </div>
+                    class="mx-auto bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full shadow-lg shadow-purple-200 flex items-center justify-center text-lg sm:text-xl px-4 py-1 md:py-2 cursor-pointer hover:outline-none active:outline-none whitespace-nowrap select-none touch-manipulation min-w-[100px] sm:min-w-[125px]  hover:-translate-y-1 transition duration-100"
+                  >
+                    <i class="fa-solid fa-bag-shopping text-white mr-1 text-sm md:text-base"></i>
+                    <span
+                    id="addToCardId" onclick="addToCart(${product.id})"
+                    class="text-white text-sm md:text-base">ব্যাগে রাখুন</span>
+                  </div>
         </div>
       </div>
     `;
@@ -331,7 +274,6 @@
                     productContainer.appendChild(productCard);
                 });
             }
-
 
             // buy now button
              addToCartAndRedirect = (productId) => {
@@ -358,10 +300,10 @@
             function filterProducts() {
                 const searchQuery = searchInput.value.toLowerCase();
                 const selectedCategory = categoryDropdown.value;
-
                 const filteredProducts = products.filter(product => {
-                    const matchesTitle = product.title.toLowerCase().includes(searchQuery);
-                    const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
+                  const matchesTitle = product.title.toLowerCase().includes(searchQuery);
+                  
+                  const matchesCategory = selectedCategory ? product.category_name === selectedCategory : true;
                     return matchesTitle && matchesCategory;
                 });
 
@@ -386,15 +328,16 @@
 
 
 
-            // Show modal with profile data
-            function showModal(id) {
-                const profile = products.find(p => p.id === id);
-                if (profile) {
-                    document.getElementById('modalImage').src = profile.imageUrl;
-                    document.getElementById('modalTitle').textContent = profile.title;
-                    document.getElementById('modalDescription').innerHTML = profile.description;
-                    document.getElementById('modalPrice').textContent = profile.price;
+            // Show modal with product data
+            function showModalShop(id) {
+                const product = products.find(p => p.id === id);
+                if (product) {
+                    document.getElementById('modalImage').src = product.imageUrl;
+                    document.getElementById('modalTitle').textContent = product.title;
+                    document.getElementById('modalDescription').innerHTML = product.description;
+                    document.getElementById('modalPrice').textContent = product.price;
                     document.getElementById('productModal').classList.remove('hidden');
+                    document.getElementById('dataLink').href = "/product/" + product.id;
 
                     // Dynamically set the onclick event for the Buy Now button
                     const buyNowButton = document.getElementById('buyNowButton');

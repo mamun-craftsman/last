@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -34,5 +35,9 @@ class HomeController extends Controller
     }
     public function order() {
         return view('home.order');
+    }
+    public function details($id)  {
+        $product = Product::findOrFail($id);
+        return view('home.details', compact('product'));
     }
 }

@@ -88,11 +88,11 @@
                 <label for="is_featured" class="block text-[#1B266B] font-semibold">Feature product?</label>
                 <div class="flex items-center space-x-4">
                     <label class="inline-flex items-center">
-                        <input type="radio" name="is_featured" value="1" class="form-radio text-[#F1CC18]" {{ $product->is_featured == 1 ? 'checked' : '' }}> 
+                        <input type="radio" name="is_featured" value="1" class="form-radio text-[#F1CC18]" {{ $product->show_feat == 1 ? 'checked' : '' }}> 
                         <span class="ml-2 text-[#1B266B]">Yes</span>
                     </label>
                     <label class="inline-flex items-center">
-                        <input type="radio" name="is_featured" value="0" class="form-radio text-[#F1CC18]" {{ $product->is_featured == 0 ? 'checked' : '' }} >
+                        <input type="radio" name="is_featured" value="0" class="form-radio text-[#F1CC18]" {{ $product->show_feat == 0 ? 'checked' : '' }} >
                         <span class="ml-2 text-[#1B266B]">No</span>
                     </label>
                 </div>
@@ -117,45 +117,55 @@
 <script>
     // Initialize Quill editor for description
     var quillDescription = new Quill('#description', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ 'header': '1' }, { 'header': '2' }],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['bold', 'italic', 'underline'],
-                [{ 'align': [] }],
-                ['link']
-            ]
-        }
-    });
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': '1' }, { 'header': '2' }, { 'header': '3' }, { 'header': '4' }],  // Added H3 and H4
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['bold', 'italic', 'underline'],
+            [{ 'align': [] }],
+            ['link'],
+            [{ 'indent': '-1'}, { 'indent': '+1'}],  // For increasing/decreasing indentation (optional)
+            [{ 'font': [] }], // Added font option if needed
+            [{ 'size': [] }] // Font size option if needed
+        ]
+    }
+});
 
-    // Initialize Quill editor for usage
-    var quillUsage = new Quill('#usage', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ 'header': '1' }, { 'header': '2' }],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['bold', 'italic', 'underline'],
-                [{ 'align': [] }],
-                ['link']
-            ]
-        }
-    });
+// Initialize Quill editor for usage
+var quillUsage = new Quill('#usage', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': '1' }, { 'header': '2' }, { 'header': '3' }, { 'header': '4' }],  // Added H3 and H4
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['bold', 'italic', 'underline'],
+            [{ 'align': [] }],
+            ['link'],
+            [{ 'indent': '-1'}, { 'indent': '+1'}],  // For increasing/decreasing indentation (optional)
+            [{ 'font': [] }], // Added font option if needed
+            [{ 'size': [] }] // Font size option if needed
+        ]
+    }
+});
 
-    // Initialize Quill editor for material
-    var quillMaterial = new Quill('#material', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ 'header': '1' }, { 'header': '2' }],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['bold', 'italic', 'underline'],
-                [{ 'align': [] }],
-                ['link']
-            ]
-        }
-    });
+// Initialize Quill editor for material
+var quillMaterial = new Quill('#material', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': '1' }, { 'header': '2' }, { 'header': '3' }, { 'header': '4' }],  // Added H3 and H4
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['bold', 'italic', 'underline'],
+            [{ 'align': [] }],
+            ['link'],
+            [{ 'indent': '-1'}, { 'indent': '+1'}],  // For increasing/decreasing indentation (optional)
+            [{ 'font': [] }], // Added font option if needed
+            [{ 'size': [] }] // Font size option if needed
+        ]
+    }
+});
+
 
     // Before the form is submitted, get the content from Quill editors and assign to hidden fields
     document.querySelector('form').onsubmit = function() {
