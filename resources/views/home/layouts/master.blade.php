@@ -15,13 +15,14 @@
       theme: {
         extend: {
             screens: {
-            'xs': '350px',
-            // => @media (min-width: 350px) { ... }
+            'xs': '390px',
+            // => @media (min-width: 390px) { ... }
             },
         }
       }
     }
   </script>
+
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
@@ -184,7 +185,7 @@
 
     <!-- Proceed to Checkout Button at the bottom -->
     <div class="p-0">
-      <a href="orderPage.html">
+      <a href="{{route('order')}}">
         <button id="checkout-btn" class="w-full p-3 font-shishir bg-[#1B266B] text-white  hover:bg-[green]">
           অর্ডার কনফার্ম করুন
         </button>
@@ -226,7 +227,6 @@
 		  <img src="${item.imageUrl}" alt="${item.title}" class="w-16 h-16 object-contain rounded">
 		  <button id="delete-${item.id}" onclick="deleteFromCart(${item.id})" class="text-xl text-red-600">
 			<i id="delete-icon" class="fas fa-trash"></i>
-		  </button>
 		</div>
 	  </div>
 	`;
@@ -243,6 +243,7 @@
 		if (cartArray.length > 0) {
 			localStorage.setItem('cart', JSON.stringify(cartArray));
 		}
+    console.log("first")
 	}
 	updateCartCount();
 
@@ -264,7 +265,10 @@
 
 	// Delete item from cart
 	function deleteFromCart(productId) {
+    console.error("second")
 		cartArray = cartArray.filter(p => p.id !== productId); // Remove the product from cartArray
+    updateCartCount();
+    console.error("third")
 		renderCart(); // Re-render the cart after deleting the item
 		localStorage.setItem('cart', JSON.stringify(cartArray));
 	}

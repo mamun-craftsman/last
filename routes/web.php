@@ -4,7 +4,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-// In routes/web.php or routes/api.php
+// api
 Route::get('/api/products', [ProductController::class, 'getProducts']);
 
 
@@ -61,6 +61,8 @@ Route::get('/about-us', [HomeController::class,'aboutus'])->name('about');
 Route::get('/privacy-policy', [HomeController::class,'privacy'])->name('privacy');
 Route::get('/terms-and-condition', [HomeController::class,'policy'])->name('policy');
 Route::get('/order-now', [HomeController::class,'order'])->name('order');
+Route::get('/product/{id}', [HomeController::class,'details'])->name('details');
+
 
 
 

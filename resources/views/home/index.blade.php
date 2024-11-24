@@ -93,7 +93,7 @@
 		  class="inline-flex flex-1 w-full mt-10 items-center justify-center h-12 px-4 text-lg font-medium text-white font-nakkh transition-transform transform bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg shadow-[rgba(45,35,66,0.4)_0px_2px_4px,rgba(45,35,66,0.3)_0px_7px_13px_-3px,rgba(58,65,111,0.5)_0px_-3px_0px_inset]  hover:shadow-[rgba(45,35,66,0.4)_0px_0px_0px,rgba(45,35,66,0.3)_0px_1px_1px_-3px,#3c4fe0_0px_-2px_0px_inset] hover:-translate-y-0.5 active:shadow-[#3c4fe0_0px_3px_7px_inset] active:translate-y-0.5"
 		  role="button">
 		  এখনই কিনুন </button>
-		<a href="/product-details.html" class="flex-1">
+		<a  class="flex-1" id="detailsButton">
 		  <button
 			class="inline-flex w-full mt-10 items-center justify-center h-12 px-4 text-lg font-medium text-white font-nakkh transition-transform transform bg-gradient-to-br from-blue-500 to-green-500 rounded-lg shadow-[rgba(45,35,66,0.4)_0px_2px_4px,rgba(45,35,66,0.3)_0px_7px_13px_-3px,rgba(58,65,111,0.5)_0px_-3px_0px_inset]  hover:shadow-[rgba(45,35,66,0.4)_0px_0px_0px,rgba(45,35,66,0.3)_0px_1px_1px_-3px,#3c4fe0_0px_-2px_0px_inset] hover:-translate-y-0.5 active:shadow-[#3c4fe0_0px_3px_7px_inset] active:translate-y-0.5"
 			role="button">
@@ -122,7 +122,7 @@
 	  <div class="absolute top-[40px] left-[245px] md:left-[262px] rotate-45 bg-[#2D2A32] w-[5px] h-[5px]"></div>
 	  <div class="absolute top-[40px] left-[255px] md:left-[270px] rotate-45 bg-[#2D2A32] w-[5px] h-[5px]"></div>
 	  <div class="absolute top-[40px] left-[265px] md:left-[278px] rotate-45 bg-[#2D2A32] w-[5px] h-[5px]"></div>
-	  <div id="gtid-present" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 place-items-center">
+	  <div id="gtid-present" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 items-center">
 	  </div>
 	</div>
 
